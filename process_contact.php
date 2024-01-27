@@ -21,16 +21,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // SQL query to insert data into the table
-    $sql = "INSERT INTO contact_data (name, email, subject, message, phone) VALUES ('$name', '$email', '$subject', '$message', '$phone')";
+    $sql = "INSERT INTO contact_data (name, email, subject, message, phone) VALUES (?, ?, ?, ?, ?)";
 
-    if ($conn->query($sql) === TRUE) {
+    // Use prepared statement to prevent SQL injection
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("sssss", $name, $email, $subject, $message, $phone);
+
+    if ($stmt->execute()) {
         // Message sent successfully!
         echo "Message sent successfully! <a href='index.html'>Go back to home</a>";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $sql . "<br>" . $stmt->error;
     }
 
-    // Close the connection
+    // Close the statement and connection
+    $stmt->close();
     $conn->close();
 }
 ?>
