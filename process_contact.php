@@ -8,8 +8,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Replace these values with your actual database credentials
     $servername = "localhost";
-    $username = "hehe";
-    $password = "hehe@#123";
+    $username = "username";
+    $password = "password";
     $dbname = "elearning_database";
 
     // Create connection
